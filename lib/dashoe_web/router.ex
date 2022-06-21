@@ -18,8 +18,7 @@ defmodule DashoeWeb.Router do
   scope "/", DashoeWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
-    live "/live", PageLive, :index
+    live "/", PageLive, :index
     live "/live/modal/:size", PageLive, :modal
     live "/live/slide_over/:origin", PageLive, :slide_over
     live "/live/pagination/:page", PageLive, :pagination

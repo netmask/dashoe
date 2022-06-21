@@ -50,6 +50,7 @@ defmodule Dashoe.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:petal_components, "~> 0.16.0"},
+      {:websockex, "~> 0.4.3"},
       {:tailwind, "~> 0.1", runtime: Mix.env() == :dev}
     ]
   end

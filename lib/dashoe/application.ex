@@ -15,7 +15,8 @@ defmodule Dashoe.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Dashoe.PubSub},
       # Start the Endpoint (http/https)
-      DashoeWeb.Endpoint
+      DashoeWeb.Endpoint,
+      Dashoe.InventorySocketClient
       # Start a worker by calling: Dashoe.Worker.start_link(arg)
       # {Dashoe.Worker, arg}
     ]
