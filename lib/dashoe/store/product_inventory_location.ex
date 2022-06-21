@@ -18,7 +18,15 @@ defmodule Dashoe.Store.ProductInventoryLocation do
   @doc false
   def changeset(product_inventory_location, attrs) do
     product_inventory_location
-    |> cast(attrs, [:product_code, :last_inventory, :location_name, :amount_changed, :current_inventory, :history, :stats])
+    |> cast(attrs, [
+      :product_code,
+      :last_inventory,
+      :location_name,
+      :amount_changed,
+      :current_inventory,
+      :history,
+      :stats
+    ])
     |> validate_required([:product_code, :location_name, :current_inventory, :history, :stats])
   end
 end

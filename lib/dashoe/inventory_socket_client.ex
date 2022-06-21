@@ -40,7 +40,15 @@ defmodule Dashoe.InventorySocketClient do
     inventory_strancations_sample = Store.list_last_product_inventory_locations(10)
 
     PubSub.broadcast!(Dashoe.PubSub, "inventory_events", inventory_strancations_sample)
-    PubSub.broadcast!(Dashoe.PubSub, "store:#{store}", inventory_strancations_sample)
-    PubSub.broadcast!(Dashoe.PubSub, "model:#{model}", inventory_strancations_sample)
+    PubSub.broadcast!(Dashoe.PubSub, "store:#{store}", store_event(store))
+    PubSub.broadcast!(Dashoe.PubSub, "model:#{model}", model_event(model))
+  end
+
+  def store_event(store) do
+    Store.get_store_status(store)
+  end
+
+  def model_event(model) do
+    Store.get_model_status(model)
   end
 end

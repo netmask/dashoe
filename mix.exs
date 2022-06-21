@@ -48,6 +48,7 @@ defmodule Dashoe.MixProject do
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
+      {:contex, "~> 0.4.0"},
       {:plug_cowboy, "~> 2.5"},
       {:petal_components, "~> 0.16.0"},
       {:websockex, "~> 0.4.3"},

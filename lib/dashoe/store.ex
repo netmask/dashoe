@@ -24,7 +24,8 @@ defmodule Dashoe.Store do
   def list_last_product_inventory_locations(limit) do
     from(pil in ProductInventoryLocation,
       order_by: [desc: pil.updated_at],
-      limit: ^limit)
+      limit: ^limit
+    )
     |> Repo.all()
   end
 
@@ -158,7 +159,26 @@ defmodule Dashoe.Store do
       on: pil2.product_code == pil.product_code,
       where: pil.current_inventory > 70,
       order_by: pil.product_code,
-      select: {pil.product_code, pil2.location_name, pil2.current_inventory, pil.location_name, pil.current_inventory})
+      select:
+        {pil.product_code, pil2.location_name, pil2.current_inventory, pil.location_name,
+         pil.current_inventory}
+    )
+    |> Repo.all()
+  end
+
+  def get_store_status(store) do
+    from(pil in ProductInventoryLocation,
+      where: pil.location_name == ^store
+    )
+    |> Repo.all()
+  end
+
+  def get_model_status(product_code) do
+    from(pil in ProductInventoryLocation,
+      where: pil.product_code == ^product_code,
+      group_by: [pil.location_name, pil.product_code],
+      select: {pil.product_code, fragment("json_agg(?)", pil.history), pil.location_name}
+    )
     |> Repo.all()
   end
 end

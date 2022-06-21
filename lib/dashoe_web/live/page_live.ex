@@ -17,7 +17,6 @@ defmodule DashoeWeb.PageLive do
   end
 
   def handle_info(transaction_samples, socket) do
-
     total_inventories = Store.models_full_inventories()
 
     inventory_transfers = Store.inventory_transfer_posibilities()
@@ -26,7 +25,10 @@ defmodule DashoeWeb.PageLive do
      socket
      |> assign(:latest_transactions, transaction_samples)
      |> assign(:total_inventories, total_inventories)
-     |> assign(:inventory_transfers, inventory_transfers)
-    }
+     |> assign(:inventory_transfers, inventory_transfers)}
+  end
+
+  def store_link(socket, store) do
+    store && link(store, to: Routes.store_path(socket, :show, store), class: "underline")
   end
 end

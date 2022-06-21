@@ -1,88 +1,79 @@
 <div class="min-h-full">
-
   <header class="bg-white shadow">
     <div class="max-w-7x2 mx-auto py-6 px-4 sm:px-6 lg:px-8">
       <h1 class="text-3xl font-bold text-gray-900">Dashoe</h1>
     </div>
   </header>
   <main>
-    
     <div class=" grid ">
-      <div class="text-lg p-6 col-span-2">Inventory counts
-      <div class="grid grid-cols-8 gap-1">        
-        <%= for {model, total_amount} <- @total_inventories do %>
-         <div class="bg-gray-400 p-2 rounded">
-           <span><%= model %></span>
-           <span><%= total_amount %></span>
-         </div>
-          <!-- Maybe a marque to see this as a stock market ticket -->
-      <%end%>        
-    </div>
+      <div class="text-lg p-6 col-span-2">
+        Inventory counts
+        <div class="grid grid-cols-8 gap-1">
+          <%= for {model, total_amount} <- @total_inventories do %>
+            <div class="bg-gray-400 p-2 rounded">
+              <span><%= model %></span>
+              <span><%= total_amount %></span>
+            </div>
+            <!-- Maybe a marque to see this as a stock market ticket -->
+          <% end %>
+        </div>
       </div>
 
+      <div class="h-96 overflow-x-scroll col-span-2 p-6">
+        <h3 class="text-lg">Inventory Transefribles suggestions</h3>
+        <.table class="table-auto  border mt-10">
+          <.tr>
+            <.th>Product</.th>
 
-  <div class="h-96 overflow-x-scroll col-span-2 p-6">
-    <h3 class="text-lg">Inventory Transefribles suggestions </h3>
-    <.table class="table-auto  border mt-10">
-      <.tr>
-        <.th>Product</.th>
-
-        <.th>Location with low stock</.th>
-        <.th>Low stock qty</.th>
-        <.th>Location with over qty</.th>
-        <.th>Qty</.th>
-
-      </.tr>
-    <%= for {product_code, low_inventory_location, low_inventory_qty, over_inventory_location, over_inventory_qty } <- @inventory_transfers do %>
-    <.tr>
-      <.td><%= product_code %></.td>
-      <.td><%= low_inventory_location %></.td>
-      <.td><%= low_inventory_qty %></.td>
-      <.td><%= over_inventory_location %></.td>
-      <.td><%= over_inventory_qty %></.td>
-    </.tr>
-<%end%>
-  </.table>
-
-  
-
-
-  </div>
-  <div class="w-full col-span-2 shadow-inner p-6">        
-    <h3  class="text-lg">Live transaction feed ( last 10 ) </h3>
-    <table class="table-fixed text-sm w-full border-solid border-2 border-sky-500">
-      <tr>
-        <th>                              
-          </th>
-        <th>Location</th>
-        <th>Model</th>
-        <th>Inventory</th>
-        <th>Was inventory</th>
-        <th>Change</th>
-        <th></th>
-      </tr>
-      <%= for transaction <- @latest_transactions do %>
+            <.th>Location with low stock</.th>
+            <.th>Low stock qty</.th>
+            <.th>Location with over qty</.th>
+            <.th>Qty</.th>
+          </.tr>
+          <%= for {product_code, low_inventory_location, low_inventory_qty, over_inventory_location, over_inventory_qty } <- @inventory_transfers do %>
+            <.tr>
+              <.td><%= product_code %></.td>
+              <.td><%= store_link(@socket, low_inventory_location) %></.td>
+              <.td><%= low_inventory_qty %></.td>
+              <.td><%= store_link(@socket, over_inventory_location) %></.td>
+              <.td><%= over_inventory_qty %></.td>
+            </.tr>
+          <% end %>
+        </.table>
+      </div>
+      <div class="w-full col-span-2 shadow-inner p-6">
+        <h3 class="text-lg">Live transaction feed ( last 10 )</h3>
+        <table class="table-fixed text-sm w-full border-solid border-2 border-sky-500">
+          <tr>
+            <th></th>
+            <th>Location</th>
+            <th>Model</th>
+            <th>Inventory</th>
+            <th>Was inventory</th>
+            <th>Change</th>
+            <th></th>
+          </tr>
+          <%= for transaction <- @latest_transactions do %>
             <tr>
               <td></td>
-              <td><%= transaction.location_name%></td>
+              <td><%= transaction.location_name %></td>
               <td><%= transaction.product_code %></td>
               <td><%= transaction.current_inventory %></td>
               <td><%= transaction.last_inventory %></td>
               <td>
-                <%= transaction.amount_changed %>                    
+                <%= transaction.amount_changed %>
               </td>
               <td>
                 <%= if transaction.amount_changed <= 0 do %>
-                <Heroicons.Solid.arrow_down class="w-6 h-6 text-amber-800" />
-                <%=else%>
-                <Heroicons.Solid.arrow_up class="w-6 h-6 text-lime-800" />
-                <%=end%>  
+                  <Heroicons.Solid.arrow_down class="w-6 h-6 text-amber-800" />
+                <% else %>
+                  <Heroicons.Solid.arrow_up class="w-6 h-6 text-lime-800" />
+                <% end %>
               </td>
             </tr>
-            <%end%>
-    </table>
-  </div>
-
+          <% end %>
+        </table>
+      </div>
     </div>
   </main>
 </div>
