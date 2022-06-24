@@ -6,12 +6,16 @@
   </header>
   <main>
     <div class=" grid ">
-      <div class="text-lg p-6 col-span-2">
-        Inventory counts
+      <div class="text-lg p-6 ">
+        <.h2>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500">
+            Inventory counts
+          </span>
+        </.h2>
         <div class="grid grid-cols-8 gap-1">
           <%= for {model, total_amount} <- @total_inventories do %>
-            <div class="bg-gray-400 p-2 rounded">
-              <span><%= model %></span>
+            <div class=" p-2 rounded">
+              <span><%= product_link(@socket, model) %></span>
               <span><%= total_amount %></span>
             </div>
             <!-- Maybe a marque to see this as a stock market ticket -->
@@ -19,8 +23,10 @@
         </div>
       </div>
 
+      <div></div>
+
       <div class="h-96 overflow-x-scroll col-span-2 p-6">
-        <h3 class="text-lg">Inventory Transefribles suggestions</h3>
+        <h3 class="text-sky-500 dark:text-sky-400">Inventory Transefribles suggestions</h3>
         <.table class="table-auto  border mt-10">
           <.tr>
             <.th>Product</.th>
@@ -32,7 +38,7 @@
           </.tr>
           <%= for {product_code, low_inventory_location, low_inventory_qty, over_inventory_location, over_inventory_qty } <- @inventory_transfers do %>
             <.tr>
-              <.td><%= product_code %></.td>
+              <.td><%= product_link(@socket, product_code) %></.td>
               <.td><%= store_link(@socket, low_inventory_location) %></.td>
               <.td><%= low_inventory_qty %></.td>
               <.td><%= store_link(@socket, over_inventory_location) %></.td>
@@ -42,7 +48,7 @@
         </.table>
       </div>
       <div class="w-full col-span-2 shadow-inner p-6">
-        <h3 class="text-lg">Live transaction feed ( last 10 )</h3>
+        <h3 class="text-sky-500 dark:text-sky-400">Live transaction feed ( last 10 )</h3>
         <table class="table-fixed text-sm w-full border-solid border-2 border-sky-500">
           <tr>
             <th></th>
@@ -54,7 +60,7 @@
             <th></th>
           </tr>
           <%= for transaction <- @latest_transactions do %>
-            <tr>
+            <tr class={"#{product_level_bg(transaction.current_inventory)}"}>
               <td></td>
               <td><%= transaction.location_name %></td>
               <td><%= transaction.product_code %></td>

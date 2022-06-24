@@ -12,7 +12,8 @@ defmodule DashoeWeb.PageLive do
      assign(socket,
        latest_transactions: [],
        total_inventories: [],
-       inventory_transfers: []
+       inventory_transfers: [],
+       out_of_stock: []
      )}
   end
 
@@ -26,9 +27,5 @@ defmodule DashoeWeb.PageLive do
      |> assign(:latest_transactions, transaction_samples)
      |> assign(:total_inventories, total_inventories)
      |> assign(:inventory_transfers, inventory_transfers)}
-  end
-
-  def store_link(socket, store) do
-    store && link(store, to: Routes.store_path(socket, :show, store), class: "underline")
   end
 end

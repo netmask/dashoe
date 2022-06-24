@@ -5,11 +5,23 @@
     </div>
   </header>
   <main>
-    <div>
+    <div class="w-full pb-2 pt-2">
       <%= link("Back To Dashboard", to: Routes.page_path(@socket, :index)) %>
+      <h1 class="text-black text-4xl	"><%= @store_name %></h1>
     </div>
-    <div class="h-20 w-2/3">
+    <div class="p-3">
       <%= Plot.to_svg(@plot) %>
+    </div>
+
+    <div class="grid grid-cols-4 gap-6 ">
+      <%= for product <- @store_data do %>
+        <div class="h-32 pt-10">
+          <h3 class="text-gray-400 text-black">
+            <%= product_link(@socket, product.product_code) %>
+          </h3>
+          <%= line_plot(product_graph(product)) %>
+        </div>
+      <% end %>
     </div>
   </main>
 </div>

@@ -96,6 +96,8 @@ defmodule DashoeWeb do
         ColorSchemeSwitch
       }
 
+      import DashoeWeb.Helpers
+
       use PetalComponents
     end
   end

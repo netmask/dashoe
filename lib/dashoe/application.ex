@@ -7,6 +7,8 @@ defmodule Dashoe.Application do
 
   @impl true
   def start(_type, _args) do
+    Port.open({:spawn, "websocketd --port=8080 ruby inventory.rb "}, [:binary])
+
     children = [
       # Start the Ecto repository
       Dashoe.Repo,
@@ -16,7 +18,8 @@ defmodule Dashoe.Application do
       {Phoenix.PubSub, name: Dashoe.PubSub},
       # Start the Endpoint (http/https)
       DashoeWeb.Endpoint,
-      Dashoe.InventorySocketClient
+      Dashoe.InventorySocketClient,
+      Dashoe.LowInventoryMonitor
       # Start a worker by calling: Dashoe.Worker.start_link(arg)
       # {Dashoe.Worker, arg}
     ]

@@ -13,7 +13,7 @@ defmodule Dashoe.InventorySocketClient do
     )
   end
 
-  def terminate(reason, state) do
+  def terminate(reason, _state) do
     Logger.error(reason)
   end
 

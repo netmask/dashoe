@@ -158,10 +158,18 @@ defmodule Dashoe.Store do
       left_join: pil2 in ^under_stock_query(10),
       on: pil2.product_code == pil.product_code,
       where: pil.current_inventory > 70,
-      order_by: pil.product_code,
+      order_by: pil2.current_inventory,
       select:
         {pil.product_code, pil2.location_name, pil2.current_inventory, pil.location_name,
          pil.current_inventory}
+    )
+    |> Repo.all()
+  end
+
+  def out_of_stock_products() do
+    from(pil in ProductInventoryLocation,
+      where: pil.current_inventory <= 0,
+      order_by: [pil.product_code, pil.location_name]
     )
     |> Repo.all()
   end
@@ -176,8 +184,11 @@ defmodule Dashoe.Store do
   def get_model_status(product_code) do
     from(pil in ProductInventoryLocation,
       where: pil.product_code == ^product_code,
-      group_by: [pil.location_name, pil.product_code],
-      select: {pil.product_code, fragment("json_agg(?)", pil.history), pil.location_name}
+      group_by: [pil.location_name, pil.product_code, pil.current_inventory],
+      order_by: pil.current_inventory,
+      select:
+        {pil.product_code, fragment("json_agg(?)", pil.history), pil.location_name,
+         pil.current_inventory}
     )
     |> Repo.all()
   end

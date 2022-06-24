@@ -1,0 +1,16 @@
+<%= link("Back To Dashboard", to: Routes.page_path(@socket, :index)) %>
+<h1 class="text-black text-4xl	"><%= @product_code %></h1>
+
+<div class="grid grid-cols-4">
+  <%= for {code, history, store, inventory} <- @product_status do %>
+    <div class={"#{product_level_bg(inventory)} m-2 p-5"}>
+      <span><%= store_link(@socket, store) %></span>
+      <span>, Inventory <span class="font-bold"><%= inventory %></span></span>
+
+      <%= history
+      |> List.first()
+      |> product_dataset()
+      |> line_plot() %>
+    </div>
+  <% end %>
+</div>

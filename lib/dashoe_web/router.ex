@@ -20,6 +20,7 @@ defmodule DashoeWeb.Router do
 
     live "/", PageLive, :index
     live "/store/:id", StoreLive, :show
+    live "/product/:id", ProductLive, :show
   end
 
   # Other scopes may use custom stacks.
